@@ -5,7 +5,7 @@ Application Streamlit de Machine Learning pour prédire la survie des passagers 
 ## 🚀 Installation et Lancement
 ```bash
 # Cloner le repository
-git clone https://github.com/VOTRE-USERNAME/titanic-streamlit-app.git
+git clone https://github.com/raphguenoun/titanic-streamlit-app.git
 cd titanic-streamlit-app
 
 # Installer les dépendances
