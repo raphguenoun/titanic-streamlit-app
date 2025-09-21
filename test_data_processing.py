@@ -115,4 +115,4 @@ class TestDataProcessing(unittest.TestCase):
         self.assertEqual(len(feature_names), 12)
         
         # Vérifier que les features importantes sont présentes
-        important_features = ['Age', 'Fare
+        important_features = ['Age', 'Fare']
