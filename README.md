@@ -13,3 +13,11 @@ pip install -r requirements.txt
 
 # Lancer l'application
 streamlit run app.py
+
+## Docker - TESTÉ ET FONCTIONNEL
+```bash
+# Construction de l'image (✅ réussie)
+docker build -t titanic-app .
+
+# Lancement du container (✅ réussie) 
+docker run -p 8501:8501 titanic-app
