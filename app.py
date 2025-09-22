@@ -23,19 +23,20 @@ st.markdown("*Application de Machine Learning pour prédire la survie des passag
 def load_real_data():
     df = pd.read_csv('titanic_data.csv')
     
-    # Nettoyage des données
-    columns_needed = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
-    available_columns = [col for col in columns_needed if col in df.columns]
+    # Sélectionner UNIQUEMENT les colonnes numériques nécessaires
+    columns_to_keep = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+    
+    # Filtrer pour ne garder que les colonnes qui existent ET qui nous intéressent
+    available_columns = [col for col in columns_to_keep if col in df.columns]
     df = df[available_columns]
     
-    if 'Age' in df.columns:
-        df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
-        df['Age'] = df['Age'].fillna(df['Age'].mean())
+    # Conversion explicite des colonnes numériques
+    for col in ['Age', 'SibSp', 'Parch', 'Fare']:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+            df[col] = df[col].fillna(df[col].mean())
     
-    if 'Fare' in df.columns:
-        df['Fare'] = pd.to_numeric(df['Fare'], errors='coerce') 
-        df['Fare'] = df['Fare'].fillna(df['Fare'].mean())
-    
+    # Nettoyage des catégorielles
     if 'Embarked' in df.columns:
         df['Embarked'] = df['Embarked'].fillna('S')
     
