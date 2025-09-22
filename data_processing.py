@@ -33,7 +33,8 @@ def load_titanic_data(filepath: str = None) -> pd.DataFrame:
             'Sex': np.random.choice(['male', 'female'], n_samples, p=[0.65, 0.35]),
             'Age': np.random.normal(29.7, 14.5, n_samples).clip(0, 80),
             'SibSp': np.random.choice([0, 1, 2, 3, 4, 5], n_samples, p=[0.68, 0.23, 0.05, 0.02, 0.01, 0.01]),
-            'Parch': np.random.choice([0, 1, 2, 3, 4, 5, 6], n_samples, p=[0.76, 0.13, 0.08, 0.02, 0.008,0.002]),
+            'Parch': np.random.choice([0, 1, 2, 3, 4, 5], n_samples, p=[0.76, 0.13, 0.08, 0.02, 0.008, 0.002]),
+            
             'Fare': np.random.exponential(15, n_samples).clip(0, 500),
             'Embarked': np.random.choice(['S', 'C', 'Q'], n_samples, p=[0.72, 0.19, 0.09])
         }
