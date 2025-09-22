@@ -9,23 +9,32 @@ from typing import Tuple
 
 
 def load_titanic_data(filepath: str = 'titanic_data.csv') -> pd.DataFrame:
-    """
-    Charge les données du Titanic depuis un fichier CSV ou génère des données simulées.
-    
-    Args:
-        filepath (str): Chemin vers le fichier CSV (optionnel)
-    
-    Returns:
-        pd.DataFrame: DataFrame contenant les données du Titanic
-    """
     try:
-        # Charger le fichier CSV
         df = pd.read_csv(filepath)
+        
+        # Sélectionner uniquement les colonnes nécessaires
+        required_cols = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+        available_cols = [col for col in required_cols if col in df.columns]
+        df = df[available_cols]
+        
+        # Conversion et nettoyage des colonnes numériques
+        numeric_cols = ['Age', 'SibSp', 'Parch', 'Fare']
+        for col in numeric_cols:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+                df[col] = df[col].fillna(df[col].mean())
+        
+        # Nettoyage des colonnes catégorielles
+        if 'Embarked' in df.columns:
+            df['Embarked'] = df['Embarked'].fillna('S')
+            
         return df
+        
     except FileNotFoundError:
-        # Fallback sur données simulées
-        pass
-    else:
+        # Fallback vers données simulées si pas de fichier
+        return generate_simulated_data()
+        
+def generate_simulated_data():
         # Générer des données simulées pour la démo
         np.random.seed(42)
         n_samples = 891
