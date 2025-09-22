@@ -20,9 +20,30 @@ st.markdown("*Application de Machine Learning pour prédire la survie des passag
 
 # Fonction pour créer des données simples
 @st.cache_data
-def create_simple_data():
-    np.random.seed(42)
-    n = 800
+def load_real_data():
+    df = pd.read_csv('titanic_data.csv')
+    
+    # Nettoyage des données
+    # Garder seulement les colonnes nécessaires
+    columns_needed = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+    
+    # Sélectionner les colonnes qui existent
+    available_columns = [col for col in columns_needed if col in df.columns]
+    df = df[available_columns]
+    
+    # Nettoyer les valeurs manquantes
+    if 'Age' in df.columns:
+        df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
+        df['Age'] = df['Age'].fillna(df['Age'].mean())
+    
+    if 'Fare' in df.columns:
+        df['Fare'] = pd.to_numeric(df['Fare'], errors='coerce') 
+        df['Fare'] = df['Fare'].fillna(df['Fare'].mean())
+    
+    if 'Embarked' in df.columns:
+        df['Embarked'] = df['Embarked'].fillna('S')
+    
+    return df
     
     # Données plus simples sans erreurs de probabilité
     data = {
