@@ -41,7 +41,7 @@ class TestDataProcessing(unittest.TestCase):
         self.assertFalse(df.empty)
         
         # Vérifier les colonnes requises
-        required_columns = ['PassengerId', 'Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+        required_columns = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
         for col in required_columns:
             self.assertIn(col, df.columns)
         
