@@ -24,14 +24,10 @@ def load_real_data():
     df = pd.read_csv('titanic_data.csv')
     
     # Nettoyage des données
-    # Garder seulement les colonnes nécessaires
     columns_needed = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
-    
-    # Sélectionner les colonnes qui existent
     available_columns = [col for col in columns_needed if col in df.columns]
     df = df[available_columns]
     
-    # Nettoyer les valeurs manquantes
     if 'Age' in df.columns:
         df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
         df['Age'] = df['Age'].fillna(df['Age'].mean())
@@ -86,7 +82,7 @@ def preprocess_data(df):
     return df_processed
 
 # Charger les données
-df = create_simple_data()
+df = load_real_data()
 df_processed = preprocess_data(df)
 
 # Préparer X et y

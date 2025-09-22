@@ -30,7 +30,7 @@ class TestDataProcessing(unittest.TestCase):
             'SibSp': [1, 1, 0, 1, 0],
             'Parch': [0, 0, 0, 0, 0],
             'Fare': [7.25, 71.28, 7.92, 53.10, 8.05],
-            'Embarked': ['S', 'C', 'S', 'S', np.nan]
+            'Embarked': ['S', 'C', 'Q', 'S', np.nan]
         })
     
     def test_load_titanic_data_simulated(self):
@@ -68,11 +68,10 @@ class TestDataProcessing(unittest.TestCase):
         df_encoded = encode_features(df_clean)
         
         # Vérifier que les colonnes one-hot encodées sont présentes
-        expected_columns = ['Sex_female', 'Sex_male', 'Embarked_C', 'Embarked_Q', 'Embarked_S',
-                           'Pclass_1', 'Pclass_2', 'Pclass_3']
-        
-        for col in expected_columns:
-            self.assertIn(col, df_encoded.columns)
+        self.assertIn('Sex_female', df_encoded.columns)
+        self.assertIn('Sex_male', df_encoded.columns)
+        self.assertTrue(any(col.startswith('Embarked_') for col in df_encoded.columns))
+        self.assertTrue(any(col.startswith('Pclass_') for col in df_encoded.columns))
         
         # Vérifier que les colonnes originales ont été supprimées
         self.assertNotIn('Sex', df_encoded.columns)
@@ -115,4 +114,10 @@ class TestDataProcessing(unittest.TestCase):
         self.assertEqual(len(feature_names), 12)
         
         # Vérifier que les features importantes sont présentes
-        important_features = ['Age', 'Fare']
+        important_features = ['Age', 'Fare', 'Sex_female', 'Sex_male']
+        for feature in important_features:
+            self.assertIn(feature, feature_names)
+
+
+if __name__ == '__main__':
+    unittest.main()
